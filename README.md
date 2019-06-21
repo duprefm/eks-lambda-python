@@ -5,21 +5,76 @@ The original article can be found here with detailed explanation about the proje
 I also use this script to create the KUBECONFIG file:
 https://gist.github.com/innovia/fbba8259042f71db98ea8d4ad19bd708
 
+## My mongo sample deployment
+```````````````
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mongo
+  
+spec:
+  containers:
+  - image: mongo:3.6
+    name: mongo
+    volumeMounts:
+      - mountPath: /data/db
+        name: data
+  volumes:
+  - name: data
+    emptyDir: {}
+
 ## Run a sample mongo database with persistent volume
 ``
 🐳 kubectl create -f mongo-emptydir.yaml                          
 pod/mongo created
 ``
+### My serviceAccount yaml
+````
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: myservice3
+````
 ## Create ServiceAccount
 ``
 🐳 kubectl apply -f ServiceAccount.yaml
 serviceaccount/myservice3 created
 ``
+## My Role yaml
+`````````
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata: 
+  namespace: default
+  name: my-role
+rules: 
+- apiGroups: ["", "extensions", "apps"]
+  resources: ["pods"]
+  verbs: ["get", "watch", "list"]
+
 ## Create Role
 ``
 🐳 kubectl apply -f Role.yaml
 role.rbac.authorization.k8s.io/my-role created
 ``
+## My RoleBinding yaml
+``````````````
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata: 
+  name: my-role-binding
+  namespace: default
+subjects: 
+- kind: ServiceAccount 
+  name: myservice3
+  namespace: default
+  apiGroup: ""
+roleRef: 
+  kind: Role
+  name: my-role
+  apiGroup: ""
+``````````````
+
 ## Create RoleBinding
 ``
 🐳 kubectl apply -f RoleBinding.yaml
