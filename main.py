@@ -1,13 +1,17 @@
-from eksauth import auth
-from kubernetes import client, config
+import os.path
 import yaml
 import boto3
-import os.path
+from kubernetes import client, config
+import auth
+import logging
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 # Configure your cluster name and region here
 KUBE_FILEPATH = '/tmp/kubeconfig'
-CLUSTER_NAME = 'EKS'
-REGION = 'us-east-1'
+CLUSTER_NAME = '${var.cluster-name}'
+REGION = '${var.aws-region-name}'
 
 # We assuem that when the Lambda container is reused, a kubeconfig file exists.
 # If it does not exist, it creates the file.
