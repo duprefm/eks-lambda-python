@@ -5,6 +5,7 @@ The original article can be found here with detailed explanation about the proje
 I also use this script to create the KUBECONFIG file:
 https://gist.github.com/innovia/fbba8259042f71db98ea8d4ad19bd708
 
+# Sample mongo
 ## My mongo sample deployment
 ```````````````
 apiVersion: v1
@@ -22,13 +23,14 @@ spec:
   volumes:
   - name: data
     emptyDir: {}
-
+```````````````
 ## Run a sample mongo database with persistent volume
 ``
 🐳 kubectl create -f mongo-emptydir.yaml                          
 pod/mongo created
 ``
-### My serviceAccount yaml
+# ServiceAccount
+## My serviceAccount yaml
 ````
 apiVersion: v1
 kind: ServiceAccount
@@ -40,8 +42,9 @@ metadata:
 🐳 kubectl apply -f ServiceAccount.yaml
 serviceaccount/myservice3 created
 ``
+# Role
 ## My Role yaml
-`````````
+```````````````
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata: 
@@ -51,12 +54,13 @@ rules:
 - apiGroups: ["", "extensions", "apps"]
   resources: ["pods"]
   verbs: ["get", "watch", "list"]
-
+```````````````
 ## Create Role
 ``
 🐳 kubectl apply -f Role.yaml
 role.rbac.authorization.k8s.io/my-role created
 ``
+# RoleBinding
 ## My RoleBinding yaml
 ``````````````
 kind: RoleBinding
@@ -80,6 +84,7 @@ roleRef:
 🐳 kubectl apply -f RoleBinding.yaml
 rolebinding.rbac.authorization.k8s.io/my-role-binding created
 ``
+# Kubeconfig file
 ## Create Kubeconfig File
 `````````````````````
 🐳 ./kubernetes_add_service_account_kubeconfig.sh myservice3 default
@@ -105,7 +110,7 @@ you should not have any permissions by default - you have just created the authe
 You will need to create RBAC permissions
 No resources found.
 `````````````````````
-## Test
+# Test
 ```
 🐳 eks-lambda-python kubectl --kubeconfig /tmp/kube/k8s-myservice3-default-conf get pod
 NAME    READY   STATUS              RESTARTS   AGE
