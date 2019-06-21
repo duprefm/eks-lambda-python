@@ -2,7 +2,11 @@ import base64
 import boto3
 import string
 import random
+import logging
 from botocore.signers import RequestSigner
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 class EKSAuth(object):
 
@@ -13,7 +17,7 @@ class EKSAuth(object):
     STS_URL = 'sts.amazonaws.com'
     STS_ACTION = 'Action=GetCallerIdentity&Version=2011-06-15'
 
-    def __init__(self, cluster_id, region='us-east-1'):
+    def __init__(self, cluster_id, region='${var.aws-region-name}'):
         self.cluster_id = cluster_id
         self.region = region
     
