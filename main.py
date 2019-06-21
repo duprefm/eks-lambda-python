@@ -45,7 +45,7 @@ if not os.path.exists(KUBE_FILEPATH):
         'context':
             {
             'cluster':'kubernetes',
-            'user':'aws'
+            'user':'lambda'
             },
         'name':'aws'
         }]
@@ -77,10 +77,9 @@ def handler(event, context):
     api = client.ApiClient(configuration)
     v1 = client.CoreV1Api(api)
     
+    print(open(KUBE_FILEPATH).read())
     # Get all the pods
     ret = v1.list_namespaced_pod("default")
 
     for i in ret.items:
         print("%s\t%s\t%s" % (i.status.pod_ip, i.metadata.namespace, i.metadata.name))
-
-
