@@ -2,6 +2,8 @@
 Orchestrating Amazon Kubernetes Service (EKS) from AWS Lambda
 
 The original article can be found here with detailed explanation about the project: https://medium.com/@alejandro.millan.frias/managing-kubernetes-from-aws-lambda-7922c3546249
+I also use this script to create the KUBECONFIG file:
+https://gist.github.com/innovia/fbba8259042f71db98ea8d4ad19bd708
 
 ## Run a sample mongo database with persistent volume
 ``
