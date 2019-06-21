@@ -25,7 +25,7 @@ spec:
     emptyDir: {}
 ```````````````
 ## Run a sample mongo database with persistent volume
-```
+``
 🐳 kubectl create -f mongo-emptydir.yaml                          
 pod/mongo created
 ``
